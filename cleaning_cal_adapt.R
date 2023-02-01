@@ -1,4 +1,5 @@
 ####################################################################
+# Finding all minimum temperature files
 min_temp_files <-
   dir(
     "/capstone/firefutures/capstone_data/cal_adapt_all/min_temp_all",
@@ -8,6 +9,8 @@ min_temp_files <-
   )
 as.list(min_temp_files)
 
+# Function to read in all minimum temperature files and name them by their model name (after the 5th dash in the filepath
+#and excluding .csv)
 read_in_min <- function(filepath) {
   name <- str_after_nth(filepath, '/', 6)
   name <- str_before_last(name, '.csv')
@@ -18,6 +21,7 @@ read_in_min <- function(filepath) {
   assign(name, file,  envir = parent.frame())
 } 
 
+# Reading through list of file paths and applying the function defined above to put them in the global environment and clean them accordingly
 for (i in min_temp_files) {
   read_in_min(i)
 }
@@ -135,16 +139,29 @@ for (i in wind_files) {
 }
 
 ########################################################
-pattern_vals <- grep('MIROC5_rcp4',names(.GlobalEnv),value=TRUE)s
-pattern_list <-do.call("list",mget(pattern_vals))
-test <- pattern_list %>% 
-  reduce(left_join, by = "time")
-
 model_scenario_join <- function(pattern_string) {
   pattern_vals <- grep(pattern_string ,names(.GlobalEnv),value=TRUE)
-  pattern_list <-do.call("list",mget(pattern_vals))
+  pattern_list <- do.call("list",mget(pattern_vals, inherits = TRUE))
   test <- pattern_list %>% 
-  reduce(left_join, by = "time")
-}
+    reduce(left_join, by = "time")
+} # Function to combine all climate variables so we have 12 data frames for the 4 
+# priority models and their climate scenarios (rcp45, rcp85, historical)
 
-model_scenario_join('MIROC5_rcp4')
+MIROC5_rcp45 <- model_scenario_join('MIROC5_rcp4')
+MIROC5_rcp85 <- model_scenario_join('MIROC5_rcp85')
+MIROC_historical <- model_scenario_join('MIROC5_historical')
+
+
+CanESM2_rcp85 <- model_scenario_join('CanESM2_rcp85')
+CanESM2_rcp45 <- model_scenario_join('CanESM2_rcp45')
+CanESM2_historical <- model_scenario_join('CanESM2_historical')
+
+
+HadGEM2ES_rcp85 <-  model_scenario_join('HadGEM2-ES_rcp85')
+HadGEM2ES_rcp45 <-  model_scenario_join('HadGEM2-ES_rcp45')
+HadGEM2ES_historical <-  model_scenario_join('HadGEM2-ES_historical')
+
+
+CNRM_CM5_rcp85 <- model_scenario_join('CNRM-CM5_rcp85')
+CNRM_CM5_rcp45 <-  model_scenario_join('CNRM-CM5_rcp45')
+CNRM_CM5_historical <- model_scenario_join('CNRM-CM5_historical')
