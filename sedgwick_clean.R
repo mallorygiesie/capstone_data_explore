@@ -1,4 +1,4 @@
-sedgwick_all_years <- read_csv("/capstone/firefutures/capstone_data/sedgwick_all.csv")
+sedgwick_all_years <- read_csv("/capstone/firefutures/capstone_data/sbco_raws_daily_070117_073122.csv")
 
 # Cleaning the data 
 sedgwick_all_years_temp <- sedgwick_all %>%
@@ -12,3 +12,6 @@ sedgwick_all_years_temp <- sedgwick_all %>%
 
 
 sum(is.na(sedgwick_all_years$relative_humidity_set_1))
+
+sedgwick_2017_today <- read_csv("/capstone/firefutures/capstone_data/sbco_raws_daily_070117_073122.csv")
+view(sedgwick_2017_today)

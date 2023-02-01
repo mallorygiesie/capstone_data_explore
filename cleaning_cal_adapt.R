@@ -135,7 +135,7 @@ for (i in wind_files) {
 }
 
 ########################################################
-pattern_vals <- grep('MIROC5_rcp4',names(.GlobalEnv),value=TRUE)
+pattern_vals <- grep('MIROC5_rcp4',names(.GlobalEnv),value=TRUE)s
 pattern_list <-do.call("list",mget(pattern_vals))
 test <- pattern_list %>% 
   reduce(left_join, by = "time")
@@ -144,7 +144,7 @@ model_scenario_join <- function(pattern_string) {
   pattern_vals <- grep(pattern_string ,names(.GlobalEnv),value=TRUE)
   pattern_list <-do.call("list",mget(pattern_vals))
   test <- pattern_list %>% 
-    reduce(left_join, by = "time")
+  reduce(left_join, by = "time")
 }
 
 model_scenario_join('MIROC5_rcp4')
