@@ -63,7 +63,8 @@ read_in_min_humidity <- function(filepath) {
   name <- str_after_nth(filepath, '/', 6)
   name <- str_before_last(name, '.csv')
   file <- read_csv(filepath, show_col_types = FALSE) %>% 
-    rename('min_humidity_1' = '0', 'min_humidity_2' = '1') 
+    rename('min_humidity_1' = '0', 'min_humidity_2' = '1') %>%
+    mutate(min_humidity_1 = min_humidity_1/ 100, min_humidity_2 = min_humidity_2/100)  
   assign(name, file,  envir = parent.frame())
 } 
 
@@ -85,7 +86,8 @@ read_in_max_humidity <- function(filepath) {
   name <- str_after_nth(filepath, '/', 6)
   name <- str_before_last(name, '.csv')
   file <- read_csv(filepath, show_col_types = FALSE) %>% 
-    rename('max_humidity_1' = '0', 'max_humidity_2' = '1') 
+    rename('max_humidity_1' = '0', 'max_humidity_2' = '1') %>% 
+    mutate(max_humidity_1 = max_humidity_1/100, max_humidity_2 = max_humidity_2/100)  
   assign(name, file,  envir = parent.frame())
 } 
 
@@ -107,7 +109,8 @@ read_in_precip <- function(filepath) {
   name <- str_after_nth(filepath, '/', 6)
   name <- str_before_last(name, '.csv')
   file <- read_csv(filepath, show_col_types = FALSE) %>% 
-    rename('precip_1' = '0', 'precip_2' = '1') 
+    rename('precip_1' = '0', 'precip_2' = '1') %>% 
+    mutate(precip_1 = precip_1 * 86.4, precip_2 = precip_2 * 86.4, )
   assign(name, file,  envir = parent.frame())
 } 
 
@@ -147,21 +150,28 @@ model_scenario_join <- function(pattern_string) {
 } # Function to combine all climate variables so we have 12 data frames for the 4 
 # priority models and their climate scenarios (rcp45, rcp85, historical)
 
-MIROC5_rcp45 <- model_scenario_join('MIROC5_rcp4')
-MIROC5_rcp85 <- model_scenario_join('MIROC5_rcp85')
-MIROC_historical <- model_scenario_join('MIROC5_historical')
+MIROC5_rcp45 <- model_scenario_join('MIROC5_rcp4') 
+MIROC5_rcp85 <- model_scenario_join('MIROC5_rcp85') 
+MIROC_historical <- model_scenario_join('MIROC5_historical') 
 
 
-CanESM2_rcp85 <- model_scenario_join('CanESM2_rcp85')
-CanESM2_rcp45 <- model_scenario_join('CanESM2_rcp45')
-CanESM2_historical <- model_scenario_join('CanESM2_historical')
+CanESM2_rcp85 <- model_scenario_join('CanESM2_rcp85')  
+CanESM2_rcp45 <- model_scenario_join('CanESM2_rcp45') 
+CanESM2_historical <- model_scenario_join('CanESM2_historical') 
 
-
-HadGEM2ES_rcp85 <-  model_scenario_join('HadGEM2-ES_rcp85')
+HadGEM2ES_rcp85 <-  model_scenario_join('HadGEM2-ES_rcp85') 
 HadGEM2ES_rcp45 <-  model_scenario_join('HadGEM2-ES_rcp45')
-HadGEM2ES_historical <-  model_scenario_join('HadGEM2-ES_historical')
+HadGEM2ES_historical <-  model_scenario_join('HadGEM2-ES_historical') 
 
 
-CNRM_CM5_rcp85 <- model_scenario_join('CNRM-CM5_rcp85')
+CNRM_CM5_rcp85 <- model_scenario_join('CNRM-CM5_rcp85') 
 CNRM_CM5_rcp45 <-  model_scenario_join('CNRM-CM5_rcp45')
-CNRM_CM5_historical <- model_scenario_join('CNRM-CM5_historical')
+CNRM_CM5_historical <- model_scenario_join('CNRM-CM5_historical') 
+
+sedgwick_2017_today <- read_csv("/capstone/firefutures/capstone_data/sbco_raws_daily_070117_073122.csv")
+
+
+
+
+
+
