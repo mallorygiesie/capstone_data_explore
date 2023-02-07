@@ -169,9 +169,3 @@ CNRM_CM5_rcp45 <-  model_scenario_join('CNRM-CM5_rcp45')
 CNRM_CM5_historical <- model_scenario_join('CNRM-CM5_historical') 
 
 sedgwick_2017_today <- read_csv("/capstone/firefutures/capstone_data/sbco_raws_daily_070117_073122.csv")
-
-
-
-
-
-

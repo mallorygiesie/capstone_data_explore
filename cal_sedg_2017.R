@@ -16,3 +16,4 @@ HadGEM2ES_rcp85_2017 <- HadGEM2ES_rcp45 %>% filter(lubridate::year(time) >= 2017
 CNRM_CM5_rcp85_2017 <- CNRM_CM5_rcp85 %>% filter(lubridate::year(time) >= 2017 & lubridate::year(time) < 2023)
 CNRM_CM5_rcp45_2017 <- CNRM_CM5_rcp45 %>% filter(lubridate::year(time) >= 2017 & lubridate::year(time) < 2023)
 
+library(ks.test)
